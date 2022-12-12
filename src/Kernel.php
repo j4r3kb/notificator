@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Application\Handler\CommandHandlerInterface;
-use App\Application\Handler\QueryHandlerInterface;
 use App\Domain\Service\NotificationChannelInterface;
 use App\Infrastructure\Symfony\CompilerPass\NotificationChannelCompilerPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -23,14 +22,6 @@ class Kernel extends BaseKernel
                 'messenger.message_handler',
                 [
                     'bus' => 'command.bus',
-                ]
-            );
-
-        $container->registerForAutoconfiguration(QueryHandlerInterface::class)
-            ->addTag(
-                'messenger.message_handler',
-                [
-                    'bus' => 'query.bus',
                 ]
             );
 
