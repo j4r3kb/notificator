@@ -1,0 +1,19 @@
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="App\Domain\Entity\Notification"
+            table="notification"
+            repository-class="App\Infrastructure\Doctrine\DoctrineNotificationRepository">
+
+        <id name="id" column="id" type="string" length="36" />
+        <field name="content" type="text" />
+        <field name="language" type="string" enum-type="App\Domain\Enum\LanguageCode" />
+        <field name="status" type="string" enum-type="App\Domain\Enum\NotificationStatus" />
+        <field name="sendSuccessCount" type="integer" default="0" />
+        <field name="sendFailCount" type="integer" default="0" />
+        <field name="createdAt" type="datetime" />
+        <field name="processingStartedAt" type="datetime" nullable="true" />
+        <field name="processedAt" type="datetime" nullable="true" />
+    </entity>
+</doctrine-mapping>

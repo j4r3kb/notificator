@@ -1,0 +1,19 @@
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="App\Domain\Entity\Recipient"
+            table="recipient"
+            repository-class="App\Infrastructure\Doctrine\DoctrineRecipientRepository">
+
+        <id name="id" column="id" type="string" length="36" />
+        <field name="preferredLanguage" type="string" enum-type="App\Domain\Enum\LanguageCode" />
+        <one-to-many field="contactChannelList" target-entity="App\Domain\Entity\RecipientContactChannel"
+                     mapped-by="recipient" index-by="channel" orphan-removal="true">
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+        </one-to-many>
+    </entity>
+</doctrine-mapping>

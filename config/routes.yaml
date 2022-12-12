@@ -1,0 +1,11 @@
+notification-send:
+    path: /notification
+    controller: App\UserInterface\Api\Controller\NotificationController::send
+    methods: POST
+
+notification-status:
+    path: /notification/{notificationId}
+    controller: App\UserInterface\Api\Controller\NotificationController::status
+    methods: GET
+    requirements:
+        notificationId: '\S+'
