@@ -28,6 +28,12 @@ class DoctrineDbalNotificationQuery implements NotificationQueryInterface
             ->fetchAllAssociative()
         ;
 
-        return $result ? NotificationStatusView::fromArray(current($result)) : null;
+        $row = current($result);
+
+        if ($row) {
+            return new NotificationStatusView($row['status'], $row['send_fail_count'], $row['send_success_count']);
+        }
+
+        return null;
     }
 }

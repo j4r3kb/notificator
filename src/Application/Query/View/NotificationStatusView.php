@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Query\View;
 
-use App\Domain\Entity\Notification;
 use JsonSerializable;
+use Webmozart\Assert\Assert;
 
 class NotificationStatusView implements JsonSerializable
 {
@@ -14,15 +14,6 @@ class NotificationStatusView implements JsonSerializable
         private int $failCount,
         private int $successCount
     ) {
-    }
-
-    public static function fromArray(array $data): self
-    {
-        return new self(
-            $data['status'],
-            $data['send_fail_count'],
-            $data['send_success_count']
-        );
     }
 
     public function jsonSerialize(): array

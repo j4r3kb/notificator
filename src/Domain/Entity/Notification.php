@@ -8,6 +8,7 @@ use App\Domain\Enum\LanguageCode;
 use App\Domain\Enum\NotificationStatus;
 use DateTime;
 use DateTimeInterface;
+use InvalidArgumentException;
 use Symfony\Component\Uid\Uuid;
 
 class Notification
@@ -33,6 +34,10 @@ class Notification
 
     public static function create(string $content, LanguageCode $language): self
     {
+        if ($content === '') {
+            throw new InvalidArgumentException('Content must be non empty string');
+        }
+
         return new self(
             Uuid::v4()->toRfc4122(),
             $content,
