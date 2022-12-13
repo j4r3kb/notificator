@@ -25,11 +25,11 @@ class NotificationController
     public function send(Request $request): JsonResponse
     {
         // I'm doing this for simplicity, in production API one could use ApiPlatform or something else, more flexible
-        $parameters = $request->request->all();
-        $content = $parameters['content'] ?? null;
-        $languageCode = LanguageCode::tryFrom((string) $parameters['language'] ?? null);
+        $data = $request->toArray();
+        $content = $data['content'] ?? null;
+        $languageCode = LanguageCode::tryFrom((string) ($data['language'] ?? null));
         if (empty($content) || empty($languageCode)) {
-            return new JsonResponse([], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(null, Response::HTTP_BAD_REQUEST);
         }
 
         try {
@@ -39,7 +39,13 @@ class NotificationController
             $sendCommand = new SendNotificationCommand($notificationId);
             $this->commandBus->dispatch($sendCommand);
         } catch (Exception $exception) {
-            return new JsonResponse(['message' => 'Error occurred.', Response::HTTP_INTERNAL_SERVER_ERROR]);
+            return new JsonResponse(
+                [
+                    'message' => 'Error occurred.',
+                    'code' => Response::HTTP_INTERNAL_SERVER_ERROR
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
         }
 
         return new JsonResponse(
